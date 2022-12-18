@@ -19,19 +19,17 @@ import org.junit.jupiter.api.Nested;
 public class CalendarUtilsTest {
 
     @Nested
-    @DisplayName("isHolidayは休日であるかを判定する。") // <-- 関数の説明はここに記載する
+    @DisplayName("isHolidayは休日であるかを判定する。")
     @TestInstance(Lifecycle.PER_CLASS)
-    class IsHolidayTest { // <-- グルーピングを追加
+    class IsHolidayTest {
 
         @ParameterizedTest
         @MethodSource("sourceWhenTargetDateIsNotNull")
-        @DisplayName("対象日付がnullではない場合") // <-- 記述を簡素にできる
+        @DisplayName("対象日付がnullではない場合")
         void testWhenTargetDateIsNotNull(String description, Calendar targetDate, boolean containSaturday,
                 boolean expected)
                 throws Exception {
             // Given by parameter
-            // Calendar targetDate = Calendar.getInstance();
-            // targetDate.set(2022, Calendar.AUGUST, 14);
 
             // When
             boolean actual = CalendarUtils.isHoliday(targetDate, containSaturday);
@@ -49,11 +47,11 @@ public class CalendarUtilsTest {
             Calendar sunday = Calendar.getInstance(); // 日曜
             sunday.set(2022, Calendar.AUGUST, 7);
 
-            // containSaturday <-- 追加した引数のパターンを追加
+            // containSaturday
             boolean contain = true; // 含む
             boolean notContain = false; // 含まない
 
-            return Stream.of(// <-- targetDate × containSaturday のパターンに変更
+            return Stream.of(
                     Arguments.of("対象日が平日で、土曜を含む場合、falseを返す。", weekday, contain, false),
                     Arguments.of("対象日が平日で、土曜を含まない場合、falseを返す。", weekday, notContain, false),
                     Arguments.of("対象日が土曜で、土曜を含む場合、trueを返す。", saturday, contain, true),
@@ -73,7 +71,7 @@ public class CalendarUtilsTest {
                     () -> CalendarUtils.isHoliday(targetDate, true));
 
             // Then
-            assertThat(e.getMessage(), is("TargetDate is null.")); // <-- メッセージの検証もできる
+            assertThat(e.getMessage(), is("TargetDate is null."));
         }
     }
 }
